@@ -1,0 +1,83 @@
+* {
+    font-family: 'Lucida Sans', 'Lucida Sans Regular', 'Lucida Grande', 'Lucida Sans Unicode', Geneva, Verdana, sans-serif;
+}
+
+body {
+    text-align: center;
+    background-color: #FFFFFF;
+    background-image: url('../img/table.png');
+    background-repeat: no-repeat;
+    background-position: center; 
+    background-attachment: fixed;
+}
+
+#progressbar {    
+    background-color: rgba(0, 0, 0, 0.13);
+}
+
+#inbox {
+    position: absolute;
+    display: block;
+    padding: 0px;
+    margin: 0px;
+    border: 1px solid #000;
+    bottom: 20px;
+    left: 20px;
+    width: 100px;
+    min-height: 10px;
+}
+#done {
+    position: absolute;
+    display: block;
+    padding: 0px;
+    margin: 0px;
+    border: 1px solid #000;
+    bottom: 20px;
+    right: 20px;
+    width: 100px;
+    min-height: 10px;
+}
+.job {
+    position: relative;
+    margin:1px 0px;
+    padding:0px;
+    width: 100px;
+    height: 18px;
+    clear:both;
+    float: none;
+    cursor:pointer;
+    overflow:hidden;
+}
+.job1 {
+    background-color: #1f80c9;
+}
+.job2 {
+    background-color: #ba55d3;
+}
+.job3 {
+    background-color: #cc0000;
+}
+.job4 {
+    background-color: #feb135;
+}
+
+
+#startGame {
+    position:absolute;
+    bottom:10px;
+    right:40%;
+    width:50px;
+    height:50px;
+    background-color:#00ff00;
+    cursor:pointer;
+}
+
+#stopGame {
+    position:absolute;
+    bottom:10px;
+    left:40%;
+    width:50px;
+    height:50px;
+    background-color:#ff0000;
+    cursor:pointer;
+}
