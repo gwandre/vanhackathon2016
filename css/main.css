@@ -3,12 +3,19 @@
 }
 
 body {
-    text-align: center;
     background-color: #FFFFFF;
-    background-image: url('../img/table.png');
+    background-image: url('../img/scenario.png');
     background-repeat: no-repeat;
-    background-position: center; 
+    background-position: absolute; 
     background-attachment: fixed;
+}
+
+#scenario{
+    position:absolute;
+    bottom:10px;
+    left:42%;
+    width:700px;
+    height:500px;
 }
 
 #progressbar {    
