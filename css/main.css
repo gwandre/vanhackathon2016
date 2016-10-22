@@ -10,12 +10,20 @@ body {
     background-attachment: fixed;
 }
 
-#scenario{
+#table{
     position:absolute;
     bottom:10px;
     left:42%;
     width:700px;
     height:500px;
+}
+
+#computer{  
+    position:absolute;
+    bottom:280px;
+    left:62%;
+    width:130px;
+    height:100px;
 }
 
 #progressbar {    
@@ -67,7 +75,6 @@ body {
 .job4 {
     background-color: #feb135;
 }
-
 
 #startGame {
     position:absolute;
