@@ -177,12 +177,33 @@ body {
     left: 0px;
     background-color: #000000;
 }
-#fired img {
+
+#fired img, #points, #timer{
     position: absolute;
+}
+#fired img {
+    top: 50%;
+    left:50%;
     width: 750px;
     height: 422px;
-    left:50%;
-    top: 50%;
     margin-left:-375px;
     margin-top: -211px;
+}
+#points {
+    text-align: center;
+    top: 80%;
+    left:40%;
+    width: 150px;
+    color: white;
+    font-weight: bold;
+    font-size: 22px
+}
+#timer {
+    text-align: center
+}
+.clock {
+    float: left;
+    font-size: 80px;
+    font-family: Courier,sans-serif;
+    color: #000000;
 }

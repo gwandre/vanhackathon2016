@@ -123,9 +123,8 @@ function increaseTime() {
         if (Math.floor((Math.random() * (100 - speed)) + 1) == Math.floor(Math.round((100 - speed) / 2))) {
             createJob();
         }
-    } else {
-        gameOver();
-    }
+    } 
+    else gameOver();
 }
 
 /*
@@ -142,6 +141,9 @@ function clearBox() {
 function resetGame(toStart) {
     // Stop the global game timer
     clearTimeout(globalTimer);
+
+    //Reset the timer
+    chonometer.restart();
 
     // Reset global control variables
     timeElapsed = 0;
@@ -174,6 +176,7 @@ function resetGame(toStart) {
 function startGame() {
     resetGame(false);
     globalTimer = setInterval("increaseTime()", 10);
+    chonometer.start();
     hideHello();
 }
 
@@ -182,6 +185,7 @@ function startGame() {
  */
 function stopGame() {
     clearTimeout(globalTimer);
+    chonometer.stop();
 }
 
 /*

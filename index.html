@@ -1,32 +1,43 @@
-<!doctype html>
+﻿<!doctype html>
 <html lang="en">
 <head>
-  <meta charset="utf-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1">
-  <title>Vanhackaton 2.0 - Biznas Browser Game Chalenge</title>
-  <link rel="stylesheet" href="http://code.jquery.com/ui/1.12.1/themes/base/jquery-ui.css">
-  <link rel="stylesheet" href="css/main.css">
-  <script src="https://code.jquery.com/jquery-1.12.4.js"></script>
-  <script src="https://code.jquery.com/ui/1.12.1/jquery-ui.js"></script>
-  <script src="js/class.js"></script>
-  <script src="js/main.js"></script>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <title>Vanhackaton 2.0 - Biznas Browser Game Chalenge</title>
+    <link rel="stylesheet" href="http://code.jquery.com/ui/1.12.1/themes/base/jquery-ui.css">
+    <link rel="stylesheet" href="css/main.css">
+    <script src="https://code.jquery.com/jquery-1.12.4.js"></script>
+    <script src="https://code.jquery.com/ui/1.12.1/jquery-ui.js"></script>
+    <script src="js/class.js"></script>
+    <script src="js/main.js"></script>
+    <script src="js/chronometer.js"></script>
 </head>
 <body onkeypress="checkKey(e)">
-  <div id="dialog" title="Hey!"><p></p></div>
-  <div id="progressbar"></div>
-
-  <div id="bg">
-    <img id="scenario" src="img/scenario.png">
-    <div id="window">
-      <div id="img"><img src="img/sunmoon.png" alt="" /></div>
+    <div id="dialog" title="Hey!"><p></p></div>
+    <div id="progressbar"></div>
+    <div id="timer">
+        <div class="clock" id="Hours">00</div>
+        <div class="clock" id="Minutes">:00</div>
+        <div class="clock" id="Seconds">:00</div>
+        <div class="clock" id="Milliseconds">:00</div>
     </div>
-    <div id="table"><img src="img/table.png"></div>
-    <div id="computer"><img src="img/computer.png"></div>
-    <div id="inbox"></div>
-    <div id="done"></div>
-  </div>
+    <div id="bg">
+        <img id="scenario" src="img/scenario.png">
+        <div id="window">
+            <div id="img"><img src="img/sunmoon.png" alt="" /></div>
+        </div>
+        <div id="table"><img src="img/table.png"></div>
+        <div id="computer"><img src="img/computer.png"></div>
+        <div id="inbox"></div>
+        <div id="done"></div>
+    </div>
 
-  <div id="title"><img src="img/title.png" alt="" /></div>
-  <div id="fired"><img src="img/fired.png" alt="" /></div>
+    <div id="title">
+        <img src="img/title.png" alt="" />
+    </div>
+    <div id="fired">
+        <img src="img/fired.png" alt="" />
+        <span id="points">POINTS: 10</span>
+    </div>
 </body>
 </html>
