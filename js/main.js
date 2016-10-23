@@ -256,7 +256,7 @@ $(function() {
 $(function() {
     resetGame();
     showHello();
-
+    audio.play("The Elite Rough Cut.mp3");
     // Capture keyboard events
     document.onkeydown = checkKey;
 });
@@ -269,3 +269,11 @@ $(function() {
         jobClick($(this));
     });
 });
+
+audio = {
+    play: function(audioName) {
+        var file = new Audio("audio/" + audioName);
+        file.volume = 0.1;
+        file.play();
+    }
+}
