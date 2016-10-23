@@ -1,7 +1,8 @@
 /*
  * Global Variables
  */
-const progressMax = 12000;
+const progressMax = 900;
+//const progressMax = 12000;
 const _POINT_MULT_NORMAL = 5;
 const _POINT_MULT_POWERUP = 20;
 
@@ -115,11 +116,13 @@ function createJob() {
  * Increase value of time elapsed, then random create a new job()
  */
 function increaseTime() {
-    timeElapsed++;
-    setProgressbar();
-    setWindow();
-    if (Math.floor((Math.random() * (300 - speed)) + 1) == Math.round((300 - speed) / 2)) {
-        createJob();
+    if (timeElapsed <= progressMax) {
+        timeElapsed++;
+        setProgressbar();
+        setWindow();
+        if (Math.floor((Math.random() * (300 - speed)) + 1) == Math.round((300 - speed) / 2)) {
+            createJob();
+        }
     }
 }
 
