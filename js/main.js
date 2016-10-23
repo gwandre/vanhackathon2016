@@ -1,7 +1,9 @@
 /*
  * Global Variables
  */
-const progressMax = 900;
+const _MAX_TIME = 6000;
+const _MAX_ERRORS = 3;
+const _MAX_TODO = 10;
 const _POINT_MULT_NORMAL = 5;
 const _POINT_MULT_POWERUP = 20;
 
@@ -9,11 +11,13 @@ var globalTimer = undefined;
 var timeElapsed = 0;
 var insertTimer = 0;
 var jobCount = 0;
+var jobCompleted = 0;
 var jobList = [];
 var speed = 2;
 var gameStarted = false;
 var firedScreen = false;
 var totalPoints = 0;
+var totalErrors = 0;
 var pointMultiplicator = _POINT_MULT_NORMAL;
 
 /*
@@ -22,6 +26,14 @@ var pointMultiplicator = _POINT_MULT_NORMAL;
 function showDialog(dialogMessage) {
     $("#dialog p").html(dialogMessage);
     $("#dialog").dialog();
+}
+
+function isTodoListFull() {
+    return ((jobCount - jobCompleted) > _MAX_TODO);
+}
+
+function reachedMaxErrors() {
+    return (totalErrors >= _MAX_ERRORS);
 }
 
 /*
@@ -50,7 +62,7 @@ function hideHello() {
 function setProgressbar() {
     $(function() {
         $("#progressbar").progressbar({
-            max: progressMax,
+            max: _MAX_TIME,
             value: timeElapsed
         });
     });
@@ -60,7 +72,7 @@ function setProgressbar() {
  * Set window background position by the time elapsed (DAY / NIGHT)
  */
 function setWindow() {
-    var percentDone = (timeElapsed * 100) / progressMax;
+    var percentDone = (timeElapsed * 100) / _MAX_TIME;
     var halfSize = ($("#window #img").height() / 2);
     var sunPosition = ((halfSize - (halfSize * percentDone / 100)) * -1) + 2;
     $("#window #img").css("top", sunPosition + "px");
@@ -75,21 +87,41 @@ function jobClick(jobNumber) {
 
     // Verify if the job wasnt already dony
     if (!jobElement.isDone) {
-        // Call method to complete the job
-        jobElement.complete();
+        // Verify if the employee is not working on a job
+        if (!employeeIsWorking) {
+            // Call method to complete the job
+            jobElement.complete();
 
-        // Increase the total points
-        totalPoints += (jobElement.dificulty * pointMultiplicator);
+            // Set control variables
+            jobCompleted++;
 
-        //DEBUG: Log into console
-        console.log("clicked at jobNumber:", jobNumber, "element:", jobElement.getHtml());
+            // Move the Employee
+            empGetJob(jobElement.dificulty);
 
-        // Remove html element (who are in the INBOX)
-        $("#job"+jobNumber).remove();
+            // Increase the total points
+            totalPoints += (jobElement.dificulty * pointMultiplicator);
 
-        // Add a new html document o the DONE BOX
-        $("#done").html(jobElement.getHtml() + $("#done").html());
+            //DEBUG: Log into console
+            console.log("clicked at jobNumber:", jobNumber, "element:", jobElement.getHtml());
+
+            // Remove html element (who are in the INBOX)
+            $("#job"+jobNumber).remove();
+
+            // Add a new html document o the DONE BOX
+            $("#done").html(jobElement.getHtml() + $("#done").html());
+
+            // Play audio effect
+            playJobDone();
+        }
     }
+}
+
+function jobError() {
+    // Set control variables
+    totalErrors++;
+
+    // Play audio effect
+    playError();
 }
 
 /*
@@ -116,15 +148,30 @@ function createJob() {
  * Increase value of time elapsed, then random create a new job()
  */
 function increaseTime() {
-    if (timeElapsed <= progressMax) {
+    if (timeElapsed <= _MAX_TIME) {
+        // Increase time elapsed
         timeElapsed++;
+
+        // Set progress bar position
         setProgressbar();
+
+        // Set window position (sun and moon)
         setWindow();
+
+        // Random create another job()
         if (Math.floor((Math.random() * (100 - speed)) + 1) == Math.floor(Math.round((100 - speed) / 2))) {
             createJob();
         }
+
+        // Check if the user reached _MAX_ERRORS or todo list is full
+        if (reachedMaxErrors() || isTodoListFull()) {
+            // Call game over method
+            gameOver();
+        }
     } 
-    else gameOver();
+    else {
+        gameOver();
+    }
 }
 
 /*
@@ -139,6 +186,9 @@ function clearBox() {
  * Reset game: clear all variables and set the game to the start
  */
 function resetGame(toStart) {
+    // Start audio background effect
+    stopAudioBg();
+
     // Stop the global game timer
     clearTimeout(globalTimer);
 
@@ -148,11 +198,16 @@ function resetGame(toStart) {
     // Reset global control variables
     timeElapsed = 0;
     jobCount = 0;
+    jobCompleted = 0;
     jobList = [];
     speed = 0;
     gameStarted = false;
     firedScreen = false;
     totalPoints = 0;
+    totalErrors = 0;
+
+    // Reset global employee variables
+    employeeIsWorking = false;
     
     // Set point multiplicator to the default value
     stopPowerUp();
@@ -168,41 +223,97 @@ function resetGame(toStart) {
 
     // Hide some messages
     $("#fired").hide();
+
+    // Set employee image to default
+    empNoJob();
 }
 
 /*
  * Control the start of the game
  */
 function startGame() {
+    // Call reset game function
     resetGame(false);
+
+    // Set control variables
+    gameStarted = true;
+
+    // Start main timer
     globalTimer = setInterval("increaseTime()", 10);
+
+    // Start the chronometer
     chonometer.start();
+
+    // Hide hello screen
     hideHello();
+
+    // Start audio background effect
+    startAudioBg();
 }
 
 /*
  * Control to stop the game, pause timers and display info (Game Over ou Game Finished)
  */
 function stopGame() {
+    // Set control variables
+    gameStarted = false;
+
+    // Stop the main timer
     clearTimeout(globalTimer);
+
+    // Stop the chronometer
     chonometer.stop();
+
+    // Start audio background effect
+    stopAudioBg();
 }
 
 /*
  * Display information about the game over
  */
 function gameOver() {
+    // Call stop game function
     stopGame();
+
+    // Set control variables
     firedScreen = true;
+
+    // Display total points at "totalPoints" <div>
+    $("#totalPoints").html(totalPoints);
+
+    // Show the Fired screen
     $("#fired").fadeIn();
 }
+
+
 
 /*
  * Do anything when one arrow key was clicked
  */
 function arrowClick(position) {
     if (gameStarted) {
-        console.log(position);
+        // Get the next job
+        var thisJob;
+
+        // If have job at the INBOX
+        if (jobCount > jobCompleted) {
+            for (i=jobList.length-1;i>=0;i--) {
+                thisJob = jobList[i];
+                if (!thisJob.isDone) {
+                    break;
+                }
+            }
+
+            // If the arrow pressed is equal to the job color
+            if (position == thisJob.dificulty) {
+                // Do what is needed to complet the job
+                jobClick(thisJob.jobNumber);
+            }
+            else {
+                // call job error method 
+                jobError();
+            }
+        }
     }
 }
 
@@ -211,8 +322,6 @@ function arrowClick(position) {
  */
 function checkKey(e) {
     var event = window.event ? window.event : e;
-
-    console.log(event.keyCode);
 
     if (!gameStarted) {
         if (!firedScreen) {
@@ -225,19 +334,19 @@ function checkKey(e) {
     else {
         if (event.keyCode == '38' || event.keyCode == '87') {
             // up arrow
-            arrowClick("up");
+            arrowClick(4);
         }
         else if (event.keyCode == '40' || event.keyCode == '83') {
             // down arrow
-            arrowClick("down");
+            arrowClick(3);
         }
         else if (event.keyCode == '37' || event.keyCode == '65') {
             // left arrow
-            arrowClick("left");
+            arrowClick(2);
         }
         else if (event.keyCode == '39' || event.keyCode == '68') {
             // right arrow
-            arrowClick("right");
+            arrowClick(1);
         }
     }
 }

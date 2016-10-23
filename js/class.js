@@ -16,7 +16,9 @@ function Job(number) {
 			else {
 				htmlValue += 'job' + this.dificulty;
 			}
-			htmlValue += '" onclick="jobClick(' + this.jobNumber + ')">';
+			htmlValue += '"'
+			//htmlValue += ' onclick="jobClick(' + this.jobNumber + ')"'
+			htmlValue += '>';
 			htmlValue += '<img src="img/job';
 			if (this.isDone) {
 				htmlValue += 'done'

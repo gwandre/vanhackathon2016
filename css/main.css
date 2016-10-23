@@ -21,7 +21,7 @@ body {
     margin-left: -375px;
     width: 750px;
     height: 422px;
-    overflow: hidden;
+    /*overflow: hidden;*/
 }
 #bg img#scenario {
     position: relative;
@@ -149,6 +149,22 @@ body {
 .jobPowerup {
     background-color: #14e450;
     height: 18px !important;
+}
+
+#emp {
+    position: absolute;
+    bottom: 0px;
+    left:50%;
+    margin-left: -225px;
+    width: 450px;
+    height: 637px;
+}
+#emp img {
+    position: absolute;
+    width: 450px;
+    height: 637px;
+    top:0px;
+    left:0px;
 }
 
 #title {
