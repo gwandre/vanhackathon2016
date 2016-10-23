@@ -101,8 +101,8 @@ body {
     margin: 0px;
     /*border: 1px solid #000;*/
     bottom: 214px;
-    right: 176px;
-    width: 60px;
+    right: 172px;
+    width: 69px;
     min-height: 10px;
     overflow:hidden;
 }
@@ -110,31 +110,44 @@ body {
     position: relative;
     margin:1px 0px;
     padding:0px;
-    width: 100px;
-    height: 18px;
+    width: 69px;
+    height: 40px;
     clear:both;
     float: none;
     cursor:pointer;
     overflow:hidden;
-}
-.job1 {
-    background-color: #1f80c9;
+
     background-attachment: fixed;
-    background-image: url('img/job_blue.png');
     background-position: center;
     background-repeat: no-repeat;
 }
+.job img {
+    width: 100%;
+    height: 100%;
+}
+.job1 {
+    background-color: #4285f4;
+    height: 18px !important;
+}
 .job2 {
-    background-color: #ba55d3;
+    background-color: #f25829;
+    height: 24px !important;
 }
 .job3 {
-    background-color: #cc0000;
+    background-color: #ff6464;
+    height: 32px !important;
 }
 .job4 {
-    background-color: #feb135;
+    background-color: #f7c920;
+    height: 40px !important;
 }
 .jobDone {
     background-color: #ffffff;
+    height: 18px !important;
+}
+.jobPowerup {
+    background-color: #14e450;
+    height: 18px !important;
 }
 
 #title {

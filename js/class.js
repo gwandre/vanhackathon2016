@@ -17,6 +17,14 @@ function Job(number) {
 				htmlValue += 'job' + this.dificulty;
 			}
 			htmlValue += '" onclick="jobClick(' + this.jobNumber + ')">';
+			htmlValue += '<img src="img/job';
+			if (this.isDone) {
+				htmlValue += 'done'
+			}
+			else {
+				htmlValue += this.dificulty;
+			}
+			htmlValue += '.png" alt=""/>';
 			htmlValue += '</div>';
 			return htmlValue;
 		};
