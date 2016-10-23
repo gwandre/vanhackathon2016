@@ -2,15 +2,15 @@
  * Global Variables
  */
 const progressMax = 900;
-//const progressMax = 12000;
 const _POINT_MULT_NORMAL = 5;
 const _POINT_MULT_POWERUP = 20;
 
 var globalTimer = undefined; 
 var timeElapsed = 0;
+var insertTimer = 0;
 var jobCount = 0;
 var jobList = [];
-var speed = 0;
+var speed = 2;
 var gameStarted = false;
 var firedScreen = false;
 var totalPoints = 0;
@@ -120,9 +120,11 @@ function increaseTime() {
         timeElapsed++;
         setProgressbar();
         setWindow();
-        if (Math.floor((Math.random() * (300 - speed)) + 1) == Math.round((300 - speed) / 2)) {
+        if (Math.floor((Math.random() * (100 - speed)) + 1) == Math.floor(Math.round((100 - speed) / 2))) {
             createJob();
         }
+    } else {
+        gameOver();
     }
 }
 
