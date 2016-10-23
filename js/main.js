@@ -102,7 +102,7 @@ function jobClick(jobNumber) {
             totalPoints += (jobElement.dificulty * pointMultiplicator);
 
             //DEBUG: Log into console
-            console.log("clicked at jobNumber:", jobNumber, "element:", jobElement.getHtml());
+            //console.log("clicked at jobNumber:", jobNumber, "element:", jobElement.getHtml());
 
             // Remove html element (who are in the INBOX)
             $("#job"+jobNumber).remove();
@@ -141,7 +141,7 @@ function createJob() {
     $("#inbox").html(newJob.getHtml() + $("#inbox").html());
 
     //DEBUG: Log into console
-    console.log("new job created! id:", jobCount, "html:", newJob.getHtml());
+    //console.log("new job created! id:", jobCount, "html:", newJob.getHtml());
 }
 
 /*
@@ -283,9 +283,8 @@ function gameOver() {
 
     // Show the Fired screen
     $("#fired").fadeIn();
+    $("#points").html("POINTS: " + totalPoints).fadeIn();
 }
-
-
 
 /*
  * Do anything when one arrow key was clicked
@@ -333,18 +332,22 @@ function checkKey(e) {
     }
     else {
         if (event.keyCode == '38' || event.keyCode == '87') {
+            totalPoints += 100;
             // up arrow
             arrowClick(4);
         }
         else if (event.keyCode == '40' || event.keyCode == '83') {
+            totalPoints += 100;
             // down arrow
             arrowClick(3);
         }
         else if (event.keyCode == '37' || event.keyCode == '65') {
+            totalPoints += 100;
             // left arrow
             arrowClick(2);
         }
         else if (event.keyCode == '39' || event.keyCode == '68') {
+            totalPoints += 100;
             // right arrow
             arrowClick(1);
         }
@@ -360,7 +363,7 @@ $(function() {
 $(function() {
     resetGame();
     showHello();
-
+    audio.play("The Elite Rough Cut.mp3");
     // Capture keyboard events
     document.onkeydown = checkKey;
 });
@@ -373,3 +376,11 @@ $(function() {
         jobClick($(this));
     });
 });
+
+audio = {
+    play: function(audioName) {
+        var file = new Audio("audio/" + audioName);
+        file.volume = 0.1;
+        file.play();
+    }
+}
