@@ -1,11 +1,19 @@
 /*
  * Global Variables
  */
+const progressMax = 12000;
+const _POINT_MULT_NORMAL = 5;
+const _POINT_MULT_POWERUP = 20;
+
 var globalTimer = undefined; 
 var timeElapsed = 0;
 var jobCount = 0;
 var jobList = [];
 var speed = 0;
+var gameStarted = false;
+var firedScreen = false;
+var totalPoints = 0;
+var pointMultiplicator = _POINT_MULT_NORMAL;
 
 /*
  * Helper functions
@@ -15,95 +23,222 @@ function showDialog(dialogMessage) {
     $("#dialog").dialog();
 }
 
-function showHello() {
-    showDialog("Hello, welcome to the game!");
+/*
+ * Control point multiplicators enabling/disabling the "POWER UP"
+ */
+function startPowerUp() {
+    pointMultiplicator = _POINT_MULT_POWERUP;
+}
+function stopPowerUp() {
+    pointMultiplicator = _POINT_MULT_NORMAL;
 }
 
+/*
+ * Display/Hide startup screen (HELLO TITLE)
+ */
+function showHello() {
+    $("#title").fadeIn();
+}
+function hideHello() {
+    $("#title").fadeOut();
+}
+
+/*
+ * Control the progress bar position
+ */
 function setProgressbar() {
     $(function() {
         $("#progressbar").progressbar({
-            max: 12000,
+            max: progressMax,
             value: timeElapsed
         });
     });
 }
 
 /*
- * Control Functions
+ * Set window background position by the time elapsed (DAY / NIGHT)
+ */
+function setWindow() {
+    var percentDone = (timeElapsed * 100) / progressMax;
+    var halfSize = ($("#window #img").height() / 2);
+    var sunPosition = ((halfSize - (halfSize * percentDone / 100)) * -1) + 2;
+    $("#window #img").css("top", sunPosition + "px");
+}
+
+/*
+ * Control actios when a job is done (click / correct arrow set)
  */
 function jobClick(jobNumber) {
+    // Get the Job() element at array[]
     var jobElement = jobList[jobNumber];
-    jobElement.complete();
 
-    console.log("clicked at jobNumber:", jobNumber, "element:", jobElement.getHtml());
+    // Verify if the job wasnt already dony
+    if (!jobElement.isDone) {
+        // Call method to complete the job
+        jobElement.complete();
 
-    $("#job"+jobNumber).remove();
-    $("#done").html(jobElement.getHtml() + $("#done").html());
+        // Increase the total points
+        totalPoints += (jobElement.dificulty * pointMultiplicator);
+
+        //DEBUG: Log into console
+        console.log("clicked at jobNumber:", jobNumber, "element:", jobElement.getHtml());
+
+        // Remove html element (who are in the INBOX)
+        $("#job"+jobNumber).remove();
+
+        // Add a new html document o the DONE BOX
+        $("#done").html(jobElement.getHtml() + $("#done").html());
+    }
 }
+
+/*
+ * Control creation of a new job
+ */
 function createJob() {
+    // Increase job count
     jobCount++;
+
+    // New Instance of a class Job()
     var newJob = new Job(jobCount);
+
+    // put the new Job into an Array[]
     jobList[jobCount] = newJob;
+
+    // Move the new Job to the INBOX (TO DO BOX)
     $("#inbox").html(newJob.getHtml() + $("#inbox").html());
+
+    //DEBUG: Log into console
     console.log("new job created! id:", jobCount, "html:", newJob.getHtml());
 }
+
+/*
+ * Increase value of time elapsed, then random create a new job()
+ */
 function increaseTime() {
     timeElapsed++;
     setProgressbar();
+    setWindow();
     if (Math.floor((Math.random() * (300 - speed)) + 1) == Math.round((300 - speed) / 2)) {
         createJob();
     }
 }
+
+/*
+ * Clear the TODO and DONE boxes
+ */
 function clearBox() {
     $("#inbox").html("");
     $("#done").html("");
 }
-function resetGame() {
+
+/*
+ * Reset game: clear all variables and set the game to the start
+ */
+function resetGame(toStart) {
+    // Stop the global game timer
     clearTimeout(globalTimer);
+
+    // Reset global control variables
     timeElapsed = 0;
     jobCount = 0;
     jobList = [];
+    speed = 0;
+    gameStarted = false;
+    firedScreen = false;
+    totalPoints = 0;
+    
+    // Set point multiplicator to the default value
+    stopPowerUp();
 
+    // Clear window controls
     setProgressbar();
     clearBox();
+
+    // If reset game to the start screen
+    if (toStart) {
+        showHello();
+    }
+
+    // Hide some messages
+    $("#fired").hide();
 }
 
+/*
+ * Control the start of the game
+ */
 function startGame() {
-    resetGame();
+    resetGame(false);
     globalTimer = setInterval("increaseTime()", 10);
+    hideHello();
 }
 
+/*
+ * Control to stop the game, pause timers and display info (Game Over ou Game Finished)
+ */
 function stopGame() {
     clearTimeout(globalTimer);
 }
 
+/*
+ * Display information about the game over
+ */
 function gameOver() {
     stopGame();
-    showDialog("You are fired, dude!");
+    firedScreen = true;
+    $("#fired").fadeIn();
 }
 
+/*
+ * Do anything when one arrow key was clicked
+ */
+function arrowClick(position) {
+    if (gameStarted) {
+        console.log(position);
+    }
+}
+
+/*
+ * Grab keyboard events
+ */
 function checkKey(e) {
     var event = window.event ? window.event : e;
 
-    if (event.keyCode == '38') {
-        // up arrow
-        console.log("up");
+    console.log(event.keyCode);
+
+    if (!gameStarted) {
+        if (!firedScreen) {
+            startGame();
+        }
+        else {
+            resetGame(true);
+        }
     }
-    else if (event.keyCode == '40') {
-        // down arrow
-        console.log("down");
-    }
-    else if (event.keyCode == '37') {
-       // left arrow
-       console.log("left");
-    }
-    else if (event.keyCode == '39') {
-       // right arrow
-       console.log("right");
+    else {
+        if (event.keyCode == '38' || event.keyCode == '87') {
+            // up arrow
+            arrowClick("up");
+        }
+        else if (event.keyCode == '40' || event.keyCode == '83') {
+            // down arrow
+            arrowClick("down");
+        }
+        else if (event.keyCode == '37' || event.keyCode == '65') {
+            // left arrow
+            arrowClick("left");
+        }
+        else if (event.keyCode == '39' || event.keyCode == '68') {
+            // right arrow
+            arrowClick("right");
+        }
     }
 }
+$(function() {
+    document.onkeydown = checkKey;
+});
 
-// Initialization
+/*
+ * Script initialization
+ */
 $(function() {
     resetGame();
     showHello();
@@ -112,6 +247,9 @@ $(function() {
     document.onkeydown = checkKey;
 });
 
+/*
+ * Grab clicks over the jobs
+ */
 $(function() {
     $(".job").click(function() {
         jobClick($(this));

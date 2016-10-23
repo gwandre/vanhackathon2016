@@ -12,16 +12,21 @@
   <script src="js/main.js"></script>
 </head>
 <body onkeypress="checkKey(e)">
-  <img id="table" src="img/table.png">
-  <img id="computer" src="img/computer.png">
   <div id="dialog" title="Hey!"><p></p></div>
-
   <div id="progressbar"></div>
-  <div id="inbox">
-  </div>
-  <div id="done"></div>
 
-  <div id="startGame" onclick="startGame()"></div>
-  <div id="stopGame" onclick="stopGame()"></div>
+  <div id="bg">
+    <img id="scenario" src="img/scenario.png">
+    <div id="window">
+      <div id="img"><img src="img/sunmoon.png" alt="" /></div>
+    </div>
+    <div id="table"><img src="img/table.png"></div>
+    <div id="computer"><img src="img/computer.png"></div>
+    <div id="inbox"></div>
+    <div id="done"></div>
+  </div>
+
+  <div id="title"><img src="img/title.png" alt="" /></div>
+  <div id="fired"><img src="img/fired.png" alt="" /></div>
 </body>
 </html>

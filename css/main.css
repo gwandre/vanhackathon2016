@@ -2,28 +2,80 @@
     font-family: 'Lucida Sans', 'Lucida Sans Regular', 'Lucida Grande', 'Lucida Sans Unicode', Geneva, Verdana, sans-serif;
 }
 
-body {
-    background-color: #FFFFFF;
-    background-image: url('../img/scenario.png');
-    background-repeat: no-repeat;
-    background-position: absolute; 
-    background-attachment: fixed;
+html {
+    width:100%;
+    height: 100%;
 }
 
-#table{
-    position:absolute;
-    bottom:10px;
-    left:42%;
-    width:700px;
-    height:500px;
+body {
+    width: 100%;
+    height: 100%;
+    background-color: #e8d9c4;
+    overflow: hidden;
+}
+
+#bg {
+    position: absolute;
+    bottom: 0px;
+    left: 50%;
+    margin-left: -375px;
+    width: 750px;
+    height: 422px;
+    overflow: hidden;
+}
+#bg img#scenario {
+    position: relative;
+    width: 100%;
+    height: 100%;
+}
+
+#window {
+    position: absolute;
+    top: 30px;
+    left: 472px;
+    width: 254px;
+    height: 137px;
+    overflow: hidden;
+}
+#window #img {
+    position: absolute;
+    width: 411px;
+    left:50%;
+    margin-left: -205px;
+    top:-137px;
+}
+#window #img img {
+    position: relative;
+    width: 100%;
+}
+
+#table {
+    position: absolute;
+    bottom: 0px;
+    left: 50%;
+    margin-left: -300px;
+    width: 600px;
+    height: 352px;
+    overflow: hidden;
+}
+#table img {
+    position: relative;
+    width: 100%;
+    height: 100%;
 }
 
 #computer{  
-    position:absolute;
-    bottom:280px;
-    left:62%;
-    width:130px;
-    height:100px;
+    position: absolute;
+    bottom: 188px;
+    left: 50%;
+    margin-left: -65px;
+    width: 130px;
+    height: 100px;
+}
+#computer img {
+    position: relative;
+    width: 100%;
+    height: 100%;
 }
 
 #progressbar {    
@@ -35,22 +87,24 @@ body {
     display: block;
     padding: 0px;
     margin: 0px;
-    border: 1px solid #000;
-    bottom: 20px;
-    left: 20px;
-    width: 100px;
+    /*border: 1px solid #000;*/
+    bottom: 214px;
+    left: 136px;
+    width: 69px;
     min-height: 10px;
+    overflow:hidden;
 }
 #done {
     position: absolute;
     display: block;
     padding: 0px;
     margin: 0px;
-    border: 1px solid #000;
-    bottom: 20px;
-    right: 20px;
-    width: 100px;
+    /*border: 1px solid #000;*/
+    bottom: 214px;
+    right: 176px;
+    width: 60px;
     min-height: 10px;
+    overflow:hidden;
 }
 .job {
     position: relative;
@@ -65,6 +119,10 @@ body {
 }
 .job1 {
     background-color: #1f80c9;
+    background-attachment: fixed;
+    background-image: url('img/job_blue.png');
+    background-position: center;
+    background-repeat: no-repeat;
 }
 .job2 {
     background-color: #ba55d3;
@@ -75,23 +133,42 @@ body {
 .job4 {
     background-color: #feb135;
 }
-
-#startGame {
-    position:absolute;
-    bottom:10px;
-    right:40%;
-    width:50px;
-    height:50px;
-    background-color:#00ff00;
-    cursor:pointer;
+.jobDone {
+    background-color: #ffffff;
 }
 
-#stopGame {
+#title {
     position:absolute;
-    bottom:10px;
-    left:40%;
-    width:50px;
-    height:50px;
-    background-color:#ff0000;
-    cursor:pointer;
+    top: 0px;
+    width: 100%;
+    height: 100%;
+    left: 0px;
+    background-color: #000000;
+}
+#title img {
+    position: absolute;
+    width: 750px;
+    height: 422px;
+    left:50%;
+    top: 50%;
+    margin-left:-375px;
+    margin-top: -211px;
+}
+
+#fired {
+    position:absolute;
+    top: 0px;
+    width: 100%;
+    height: 100%;
+    left: 0px;
+    background-color: #000000;
+}
+#fired img {
+    position: absolute;
+    width: 750px;
+    height: 422px;
+    left:50%;
+    top: 50%;
+    margin-left:-375px;
+    margin-top: -211px;
 }
