@@ -79,7 +79,7 @@ function setWindow() {
 }
 
 /*
- * Control actios when a job is done (click / correct arrow set)
+ * Control action when a job is done (click / correct arrow set)
  */
 function jobClick(jobNumber) {
     // Get the Job() element at array[]
@@ -280,6 +280,9 @@ function gameOver() {
 
     // Display total points at "totalPoints" <div>
     $("#totalPoints").html(totalPoints);
+
+    // Play sound effect
+    playGameOver();
 
     // Show the Fired screen
     $("#fired").fadeIn();

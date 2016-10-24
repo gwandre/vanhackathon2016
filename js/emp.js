@@ -26,6 +26,9 @@ function empGetJob(dificulty) {
 	// Calc the time to finish the job
 	var endJobTime = (dificulty * 300);
 
+	// Play audio effect
+	playGetJob();
+
 	// Set timer to give up the ended job
 	setTimeout("empEndJob()", endJobTime);
 }
