@@ -21,7 +21,12 @@ function empGetJob(dificulty) {
 	empHideAll();
 
 	// Show employee image getting the job
-	$("#emp_stress_1").show();
+	if (powerUp) {
+		$("#emp_up_1").show();
+	}
+	else {
+		$("#emp_stress_1").show();
+	}
 
 	// Calc the time to finish the job
 	var endJobTime = (dificulty * 300);
@@ -44,7 +49,12 @@ function empEndJob() {
 	empHideAll();
 
 	// Show employee image getting the job
-	$("#emp_stress_2").show();
+	if (powerUp) {
+		$("#emp_up_2").show();
+	}
+	else {
+		$("#emp_stress_2").show();
+	}
 
 	// Set timer to give up the ended job
 	setTimeout("empNoJob()", 300);
@@ -58,5 +68,32 @@ function empNoJob() {
 	empHideAll();
 	
 	// Show employee whitout job
-	$("#emp_stress_0").show();
+	if (powerUp) {
+		$("#emp_up_0").show();
+	}
+	else {
+		$("#emp_stress_0").show();
+	}
+}
+
+/*
+ * Control point multiplicators enabling/disabling the "POWER UP"
+ */
+function startPowerUp() {
+    powerUp = true;
+    pointMultiplicator = _POINT_MULT_POWERUP;
+	$("#powerup").fadeIn(150).fadeOut(300);
+}
+function stopPowerUp() {
+    powerUp = false;
+    pointMultiplicator = _POINT_MULT_NORMAL;
+	$("#powerup").hide();
+}
+function togglePowerUp() {
+	if (correctSequence >= _NUMBER_CORRECT_STARTPOWERUP) {
+		startPowerUp();
+	}
+	else {
+		stopPowerUp();
+	}
 }

@@ -2,9 +2,10 @@
  * Global Variables
  */
 const _MAX_TIME = 6000;
-const _MAX_ERRORS = 3;
+const _MAX_ERRORS = 5;
 const _MAX_TODO = 10;
 const _NUMBER_TODO_SHOWBOSS = 5;
+const _NUMBER_CORRECT_STARTPOWERUP = 10;
 const _POINT_MULT_NORMAL = 5;
 const _POINT_MULT_POWERUP = 20;
 
@@ -21,6 +22,8 @@ var totalPoints = 0;
 var totalErrors = 0;
 var pointMultiplicator = _POINT_MULT_NORMAL;
 var bossVisible = true;
+var powerUp = false;
+var correctSequence = 0;
 
 /*
  * Helper functions
@@ -42,38 +45,6 @@ function showArrow(arrowNumber) {
     if (arrowNumber != 0) {
         $("#arrow"+arrowNumber).show();
     }
-}
-function showBoss() {
-    // If boss invisible, animate to show
-    if (!bossVisible) {
-        bossVisible = true;
-        $("#boss").animate({left: "+=200"}, 200);
-    }
-}
-function hideBoss() {
-    // if boss visible, animate to hide
-    if (bossVisible) {
-        bossVisible = false;
-        $("#boss").animate({left: "-=200"}, 200);
-    }
-}
-function toggleBoss() {
-    if (bossVisible) {
-        hideBoss();
-    }
-    else {
-        showBoss();
-    }
-}
-
-/*
- * Control point multiplicators enabling/disabling the "POWER UP"
- */
-function startPowerUp() {
-    pointMultiplicator = _POINT_MULT_POWERUP;
-}
-function stopPowerUp() {
-    pointMultiplicator = _POINT_MULT_NORMAL;
 }
 
 /*
@@ -148,6 +119,9 @@ function jobClick(jobNumber) {
             // Set control variables
             jobCompleted++;
 
+            // Increase correctSequence
+            correctSequence++;
+
             // Move the Employee
             empGetJob(jobElement.dificulty);
 
@@ -172,6 +146,9 @@ function jobClick(jobNumber) {
 function jobError() {
     // Set control variables
     totalErrors++;
+
+    // Reset correctSequence
+    correctSequence = 0;
 
     // Play audio effect
     playError();
@@ -214,14 +191,19 @@ function increaseTime() {
         // Set window position (sun and moon)
         setWindow();
 
+        // Check if its time for POWER UP
+        togglePowerUp();
+
         // If reached N number of jobs, show the boss sneaking
         if (numberOfToDoJobs() > _NUMBER_TODO_SHOWBOSS) {
             showBoss();
         }
 
         // Random create another job()
-        if (Math.floor((Math.random() * (100 - speed)) + 1) == Math.floor(Math.round((100 - speed) / 2))) {
-            createJob();
+        if (!employeeIsWorking) {
+            if (Math.floor((Math.random() * (100 - speed)) + 1) == Math.floor(Math.round((100 - speed) / 2))) {
+                createJob();
+            }
         }
 
         // Check if the user reached _MAX_ERRORS or todo list is full
@@ -266,12 +248,13 @@ function resetGame(toStart) {
     firedScreen = false;
     totalPoints = 0;
     totalErrors = 0;
+    correctSequence = 0;
 
     // Reset global employee variables
     employeeIsWorking = false;
     
     // Set point multiplicator to the default value
-    stopPowerUp();
+    togglePowerUp();
 
     // Clear window controls
     setProgressbar();
@@ -282,6 +265,7 @@ function resetGame(toStart) {
 
     // Hide some messages
     $("#fired").hide();
+    $("#hired").hide();
 
     // If reset game to the start screen
     if (toStart) {
@@ -352,8 +336,13 @@ function gameOver() {
     playGameOver();
 
     // Show the Fired screen
-    $("#fired").fadeIn();
-    $("#points").html("POINTS: " + totalPoints).fadeIn();
+    if (numberOfToDoJobs() == 0) {
+        $("#hired").fadeIn();
+        $("#points").html("POINTS: " + totalPoints).fadeIn();
+    }
+    else {
+        $("#fired").fadeIn();
+    }
 }
 
 /*

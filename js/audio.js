@@ -32,3 +32,6 @@ function startAudioBg() {
 function stopAudioBg() {
 	audioBg.pause();
 }
+function playPowerUp() {
+    //audioPowerUp.play();
+}
