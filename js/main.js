@@ -317,6 +317,9 @@ function stopGame() {
 
     // Start audio background effect
     stopAudioBg();
+
+    // Stop the power up
+    stopPowerUp();
 }
 
 /*
