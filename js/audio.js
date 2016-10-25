@@ -1,6 +1,6 @@
 // Define background sound variable
 var audioBg = new Audio("audio/bg.mp3");
-audioBg.volume = 0.1;
+audioBg.volume = 0.5;
 
 var audioGetJob = new Audio("audio/getjob.mp3");
 audioGetJob.volume = 1;
