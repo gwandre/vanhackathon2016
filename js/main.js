@@ -25,11 +25,6 @@ var bossVisible = true;
 /*
  * Helper functions
  */
-function showDialog(dialogMessage) {
-    $("#dialog p").html(dialogMessage);
-    $("#dialog").dialog();
-}
-
 function isTodoListFull() {
     return ((jobCount - jobCompleted) > _MAX_TODO);
 }
@@ -42,6 +37,8 @@ function reachedMaxErrors() {
 function showArrow(arrowNumber) {
     // Hide all arrows
     $(".arrow").hide();
+
+    // If arrow number not ZERO, show the arrow
     if (arrowNumber != 0) {
         $("#arrow"+arrowNumber).show();
     }
@@ -83,7 +80,7 @@ function stopPowerUp() {
  * Display/Hide startup screen (HELLO TITLE)
  */
 function showHello() {
-    $("#title").fadeIn();
+    $("#title").show();
 }
 function hideHello() {
     $("#title").fadeOut();
@@ -93,12 +90,14 @@ function hideHello() {
  * Control the progress bar position
  */
 function setProgressbar() {
+    /*
     $(function() {
         $("#progressbar").progressbar({
             max: _MAX_TIME,
             value: timeElapsed
         });
     });
+    */
 }
 
 /*
@@ -121,7 +120,7 @@ function jobClick(jobNumber) {
     // Verify if the job wasnt already dony
     if (!jobElement.isDone) {
         // Verify if the employee is not working on a job
-        if (!employeeIsWorking) {
+        //if (!employeeIsWorking) {
             // Call method to complete the job
             jobElement.complete();
 
@@ -129,13 +128,21 @@ function jobClick(jobNumber) {
             showArrow(0);
             if (jobCount > jobCompleted) {
                 var lastJob;
+                jobFound = false;
                 for (i=jobList.length-1;i>0;i--) {
                     lastJob = jobList[i];
                     if (!lastJob.isDone) {
+                        jobFound = true;
                         break;
                     }
                 }
-                showArrow(lastJob.dificulty);
+                if (jobFound) {
+                    showArrow(lastJob.dificulty);
+                }
+                else {
+                    showArrow(0);
+                }
+                
             }
 
             // Set control variables
@@ -158,7 +165,7 @@ function jobClick(jobNumber) {
 
             // Play audio effect
             playJobDone();
-        }
+        //}
     }
 }
 
@@ -270,16 +277,16 @@ function resetGame(toStart) {
     setProgressbar();
     clearBox();
 
-    // If reset game to the start screen
-    if (toStart) {
-        showHello();
-    }
-
     // Hide arrows
     showArrow(0);
 
     // Hide some messages
     $("#fired").hide();
+
+    // If reset game to the start screen
+    if (toStart) {
+        showHello();
+    }
 
     // Hide the boss
     hideBoss();
