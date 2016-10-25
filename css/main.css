@@ -223,3 +223,32 @@ body {
     font-family: Courier,sans-serif;
     color: #000000;
 }
+#arrows {
+    position: absolute;
+    width: 100px;
+    height: 100px;
+    right: 50px;
+    bottom: 50px;
+}
+#arrows img {
+    position: absolute;
+    width: 100%;
+    height: 100%;
+    top: 0px;
+    left: 0px;
+}
+#boss {
+    position: absolute;
+    width: 200px;
+    height: 413px;
+    left: 0px;
+    top: 50%;
+    margin-top: -207px;
+}
+#boss img {
+    position: absolute;
+    width: 100%;
+    height: 100%;
+    left: 0px;
+    top: 0px;
+}

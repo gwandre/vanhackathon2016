@@ -4,6 +4,7 @@
 const _MAX_TIME = 6000;
 const _MAX_ERRORS = 3;
 const _MAX_TODO = 10;
+const _NUMBER_TODO_SHOWBOSS = 5;
 const _POINT_MULT_NORMAL = 5;
 const _POINT_MULT_POWERUP = 20;
 
@@ -19,6 +20,7 @@ var firedScreen = false;
 var totalPoints = 0;
 var totalErrors = 0;
 var pointMultiplicator = _POINT_MULT_NORMAL;
+var bossVisible = true;
 
 /*
  * Helper functions
@@ -31,9 +33,40 @@ function showDialog(dialogMessage) {
 function isTodoListFull() {
     return ((jobCount - jobCompleted) > _MAX_TODO);
 }
-
+function numberOfToDoJobs() {
+    return (jobCount - jobCompleted);
+}
 function reachedMaxErrors() {
     return (totalErrors >= _MAX_ERRORS);
+}
+function showArrow(arrowNumber) {
+    // Hide all arrows
+    $(".arrow").hide();
+    if (arrowNumber != 0) {
+        $("#arrow"+arrowNumber).show();
+    }
+}
+function showBoss() {
+    // If boss invisible, animate to show
+    if (!bossVisible) {
+        bossVisible = true;
+        $("#boss").animate({left: "+=200"}, 200);
+    }
+}
+function hideBoss() {
+    // if boss visible, animate to hide
+    if (bossVisible) {
+        bossVisible = false;
+        $("#boss").animate({left: "-=200"}, 200);
+    }
+}
+function toggleBoss() {
+    if (bossVisible) {
+        hideBoss();
+    }
+    else {
+        showBoss();
+    }
 }
 
 /*
@@ -92,6 +125,19 @@ function jobClick(jobNumber) {
             // Call method to complete the job
             jobElement.complete();
 
+            // Set the last job arrow
+            showArrow(0);
+            if (jobCount > jobCompleted) {
+                var lastJob;
+                for (i=jobList.length-1;i>0;i--) {
+                    lastJob = jobList[i];
+                    if (!lastJob.isDone) {
+                        break;
+                    }
+                }
+                showArrow(lastJob.dificulty);
+            }
+
             // Set control variables
             jobCompleted++;
 
@@ -137,6 +183,9 @@ function createJob() {
     // put the new Job into an Array[]
     jobList[jobCount] = newJob;
 
+    // Show the respective job arrow
+    showArrow(newJob.dificulty);
+
     // Move the new Job to the INBOX (TO DO BOX)
     $("#inbox").html(newJob.getHtml() + $("#inbox").html());
 
@@ -157,6 +206,11 @@ function increaseTime() {
 
         // Set window position (sun and moon)
         setWindow();
+
+        // If reached N number of jobs, show the boss sneaking
+        if (numberOfToDoJobs() > _NUMBER_TODO_SHOWBOSS) {
+            showBoss();
+        }
 
         // Random create another job()
         if (Math.floor((Math.random() * (100 - speed)) + 1) == Math.floor(Math.round((100 - speed) / 2))) {
@@ -221,8 +275,14 @@ function resetGame(toStart) {
         showHello();
     }
 
+    // Hide arrows
+    showArrow(0);
+
     // Hide some messages
     $("#fired").hide();
+
+    // Hide the boss
+    hideBoss();
 
     // Set employee image to default
     empNoJob();
@@ -299,7 +359,7 @@ function arrowClick(position) {
 
         // If have job at the INBOX
         if (jobCount > jobCompleted) {
-            for (i=jobList.length-1;i>=0;i--) {
+            for (i=jobList.length-1;i>0;i--) {
                 thisJob = jobList[i];
                 if (!thisJob.isDone) {
                     break;
