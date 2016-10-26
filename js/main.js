@@ -254,8 +254,8 @@ function resetGame(toStart) {
     // Reset global employee variables
     employeeIsWorking = false;
     
-    // Set point multiplicator to the default value
-    togglePowerUp();
+    // Stop the power up mode
+    stopPowerUp();
 
     // Clear window controls
     setProgressbar();
