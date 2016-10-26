@@ -1,6 +1,8 @@
 // Define background sound variable
 var audioBg = new Audio("audio/bg.mp3");
 audioBg.volume = 0.5;
+var audioBgPowerUp = new Audio("audio/bg_powerup.mp3");
+audioBgPowerUp.volume = 0.5;
 
 var audioGetJob = new Audio("audio/getjob.mp3");
 audioGetJob.volume = 1;
@@ -32,6 +34,11 @@ function startAudioBg() {
 function stopAudioBg() {
 	audioBg.pause();
 }
-function playPowerUp() {
-    //audioPowerUp.play();
+function startAudioBgPowerUp() {
+    stopAudioBg();
+    audioBgPowerUp.play();
+}
+function stopAudioBgPowerUp() {
+	audioBgPowerUp.pause();
+    startAudioBg();
 }

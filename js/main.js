@@ -21,8 +21,6 @@ var firedScreen = false;
 var totalPoints = 0;
 var totalErrors = 0;
 var pointMultiplicator = _POINT_MULT_NORMAL;
-var bossVisible = true;
-var powerUp = false;
 var correctSequence = 0;
 
 /*
@@ -197,6 +195,9 @@ function increaseTime() {
         // If reached N number of jobs, show the boss sneaking
         if (numberOfToDoJobs() > _NUMBER_TODO_SHOWBOSS) {
             showBoss();
+        }
+        else {
+            hideBoss();
         }
 
         // Random create another job()

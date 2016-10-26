@@ -1,7 +1,8 @@
 /*
- * Global variables to controle Employee status
+ * Global variables to control Employee status
  */
 var employeeIsWorking = false;
+var powerUp = false;
 
 /*
  * Control move: Employee hide all
@@ -80,13 +81,35 @@ function empNoJob() {
  * Control point multiplicators enabling/disabling the "POWER UP"
  */
 function startPowerUp() {
-    powerUp = true;
-    pointMultiplicator = _POINT_MULT_POWERUP;
+	if (!powerUp) {
+		// Set control variables
+		powerUp = true;
+		pointMultiplicator = _POINT_MULT_POWERUP;
+
+		// Start play BG effect Power Up
+		startAudioBgPowerUp();
+
+		// Force the figure to refresh
+		empNoJob();
+	}
+
+	// Blink Power Up Info
 	$("#powerup").fadeIn(150).fadeOut(300);
 }
 function stopPowerUp() {
-    powerUp = false;
-    pointMultiplicator = _POINT_MULT_NORMAL;
+	if (powerUp) {
+		// Set control variables
+		powerUp = false;
+		pointMultiplicator = _POINT_MULT_NORMAL;
+
+		// Stop play BG effect Power Up
+		stopAudioBgPowerUp();
+
+		// Force the figure to refresh
+		empNoJob();
+	}
+
+	// Hide Power Up Info
 	$("#powerup").hide();
 }
 function togglePowerUp() {

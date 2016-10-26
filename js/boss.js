@@ -1,3 +1,8 @@
+/*
+ * Global variables to control boss status
+ */
+var bossVisible = true;
+
 function showBoss() {
     // If boss invisible, animate to show
     if (!bossVisible) {
