@@ -379,6 +379,15 @@ function arrowClick(position) {
     }
 }
 
+function testAnyKey() {
+    if (!firedScreen) {
+        startGame();
+    }
+    else {
+        resetGame(true);
+    }
+}
+
 /*
  * Grab keyboard events
  */
@@ -386,31 +395,22 @@ function checkKey(e) {
     var event = window.event ? window.event : e;
 
     if (!gameStarted) {
-        if (!firedScreen) {
-            startGame();
-        }
-        else {
-            resetGame(true);
-        }
+        testAnyKey();
     }
     else {
         if (event.keyCode == '38' || event.keyCode == '87') {
-            totalPoints += 100;
             // up arrow
             arrowClick(4);
         }
         else if (event.keyCode == '40' || event.keyCode == '83') {
-            totalPoints += 100;
             // down arrow
             arrowClick(3);
         }
         else if (event.keyCode == '37' || event.keyCode == '65') {
-            totalPoints += 100;
             // left arrow
             arrowClick(2);
         }
         else if (event.keyCode == '39' || event.keyCode == '68') {
-            totalPoints += 100;
             // right arrow
             arrowClick(1);
         }

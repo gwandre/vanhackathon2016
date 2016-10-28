@@ -282,3 +282,31 @@ body {
     left: 0px;
     top: 0px;
 }
+
+#controlTop, #controlRight, #controlBottom, #controlLeft {
+    position: absolute;
+}
+#controlTop {
+    left: 200px;
+    right: 200px;
+    top: 0px;
+    height: 200px;
+}
+#controlRight {
+    right: 0px;
+    top: 200px;
+    bottom: 200px;
+    width: 200px;
+}
+#controlBottom {
+    left: 200px;
+    right: 200px;
+    bottom: 0px;
+    height: 200px;
+}
+#controlLeft {
+    left: 0px;
+    top: 200px;
+    bottom: 200px;
+    width: 200px;
+}

@@ -47,15 +47,24 @@
             <img src="img/powerup.png" alt="" />
         </div>
     </div>
+
+    <div id="controlTop" onclick="arrowClick(4);"></div>
+    <div id="controlRight" onclick="arrowClick(1);"></div>
+    <div id="controlBottom" onclick="arrowClick(3);"></div>
+    <div id="controlLeft" onclick="arrowClick(2);"></div>
+
     <div id="boss"><img src="img/boss.png" alt="" /></div>
+
     <div id="title" onclick="startGame();">
         <img src="img/title.png" alt="" />
     </div>
-    <div id="hired">
+
+    <div id="hired" onclick="testAnyKey();">
         <img src="img/hired.png" alt="" />
         <span id="points">POINTS: <div id="totalPoints"></div></span>
     </div>
-    <div id="fired">
+
+    <div id="fired" onclick="testAnyKey();">
         <img src="img/fired.png" alt="" />
     </div>
 </body>
